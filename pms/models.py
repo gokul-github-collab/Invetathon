@@ -1,5 +1,6 @@
 from django.db import models
-
+from django.contrib.auth.models import User
+from django.utils import timezone
 # Create your models here.
 
 class Student(models.Model):
@@ -29,6 +30,7 @@ class Project(models.Model):
     description = models.TextField()
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     faculty = models.ForeignKey(Faculty, on_delete=models.CASCADE)
+    completed = models.BooleanField(default=False)
     # Add other project-related fields
 
     def __str__(self):
@@ -36,6 +38,7 @@ class Project(models.Model):
 
 class Module(models.Model):
     title = models.CharField(max_length=200)
+    description = models.TextField(null=True)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='module_images/')
     # Add other module-related fields
@@ -51,3 +54,12 @@ class ModuleRating(models.Model):
 
     def __str__(self):
         return f"{self.module} - {self.faculty}"
+
+class Comment(models.Model):
+    module = models.ForeignKey(Module, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    text = models.TextField()
+    created_date = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f"Comment by {self.author} on {self.module.title}"

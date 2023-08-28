@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+
+{% endblock %}
+{% block css_files %}
+<style>
+    body {
+        background-color: #ff4c68;
+    }
+
+    h1 {
+        font-weight: 800;
+        font-size: 3.6rem;
+    }
+
+    h6 {
+
+        font-weight: 700;
+
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section id="faculty" style="padding: 3% 8%;">
+    <div class="container-fluid">
+        <div class="card shadow-lg p-3 ">
+            <div class="row">
+                <div class="col-lg-4 col-md-4">
+                    <div class="card-header">
+                        <img src="{{ faculty.image.url }}" class="img-fluid rounded">
+                    </div>
+                </div>
+                <div class="col-lg-8 col-md-8">
+                    <div class="card-body">
+                        <h1>Name: {{faculty.name}}</h1>
+                        <h6 class="author-name">Faculty ID: {{faculty.faculty_id}}</h6>
+                        <h6 class="author-name">Department: {{faculty.department}}</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<section id="project" style="padding: 3% 8%;">
+    <h1 style="color: #fff; text-align: center; line-height: 1.5;">Projects Assigned</h1>
+    {% for project in projects %}
+    <div class="card mb-3">
+        <div class="card-header">
+            Project
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">{{ project.title }}</h5>
+            <p class="card-text">Student name: {{project.student.name}}</p>
+            <a href="{% url 'project_detail' project.id %}" class="btn btn-primary">Project link</a>
+        </div>
+    </div>
+
+    {% endfor %}
+</section>
+{% endblock %}
